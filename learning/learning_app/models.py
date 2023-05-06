@@ -8,20 +8,19 @@ class User(AbstractUser):
     def __str__(self):
         return str(self.username) + ' ' + str(self.first_name) + ' ' + str(self.last_name)
     
-class TableResto(models.Model):
+class Topic(models.Model):
     status_choices = (
         ('Aktif', 'Aktif'),
         ('Tidak Aktif', 'Tidak Aktif'), 
     )
 
-    status_table_choices = (
-        ('Kosong','Kosong'),
-        ('Terisi', 'Terisi'),
+    status_topic_choices = (
+        ('On Going','On Going'),
+        ('Finished', 'Finished'),
     )
 
-    code = models.CharField(max_length= 200)
-    name = models.CharField(max_length= 100)
-    capacity = models.IntegerField(default = 0)
+    Code = models.CharField(max_length= 200)
+    Name = models.CharField(max_length= 100)
     status = models.CharField(max_length=15, choices= status_choices, default= 'Aktif')
     user_create = models.ForeignKey(User, related_name= 'user_create_table_resto', blank = True, null = True, on_delete= models.SET_NULL)
     user_create = models.ForeignKey(User, related_name= 'user_update_table_resto', blank = True, null = True, on_delete= models.SET_NULL)
@@ -29,4 +28,4 @@ class TableResto(models.Model):
     last_modified = models.DateTimeField(auto_now= True)
 
     def __str__(self):
-        return self.name
+        return self.Name
