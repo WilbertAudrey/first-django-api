@@ -31,6 +31,53 @@ class LessonListApiView(APIView):
 
         return Response(serializer.error, status=status.HTTP_400_BAD_REQUEST)
 
+    def put(self, request, id, *args, **kwargs):
+        lesson_instance = self.get_object(id)
+        if not lesson_instance:
+            return Response(
+                {
+                    'status': status.HTTP_400_BAD_REQUEST,
+                    'message': 'Data does not exists...',
+                    'data': {}
+                }, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        data = {
+            'Lesson code': request.data.get('Lesson_code'),
+            'Lesson name': request.data.get('Lesson_name'),
+            'status': request.data.get('status'),
+        }
+        serializer = LessonSerializer(
+            instance=lesson_instance, data=data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            response = {
+                'status': status.HTTP_200_OK,
+                'message': 'Data update successfully...',
+                'data': serializer.data
+            }
+            return Response(response, status=status.HTTP_200_OK)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, id, *args, **kwargs):
+        lesson_instance = self.get_object(id)
+        if not lesson_instance:
+            return Response(
+                {
+                    'status': status.HTTP_404_BAD_REQUEST,
+                    'message': 'Data does not exists...',
+                    'data': {}
+                }, status=status.HTTP_400_BAD_REQUEST
+            )
+
+        lesson_instance.delete()
+        response = {
+            'status': status.HTTP_200_OK,
+            'message': 'Data deleted successfully...'
+        }
+        return Response(response, status=status.HTTP_200_OK)
+
 
 class CategoryListApiView(APIView):
 
