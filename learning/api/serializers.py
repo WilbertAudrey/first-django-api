@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from learning_app.models import (
-    User, Lesson,Category, LessonDetail
+    User, Profile, Lesson,Category, SubLesson
 )
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
@@ -12,15 +12,19 @@ from django.contrib.auth.password_validation import validate_password
 class LessonSerializer(serializers.ModelSerializer):
     class Meta:
         model = Lesson
-        fields = ('id', 'Lesson_code', 'Lesson_name', 'Lesson_description','status')
+        fields = ('id','lesson_name', 'category_name', 'lesson_description','status')
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ('id', 'Category_code', 'Category_name', 'Category_description')
+        fields = ('id','category_name', 'category_description')
 
-class LessonDetailSerializer(serializers.ModelSerializer):
+class SubLessonSerializer(serializers.ModelSerializer):
     class Meta:
-        model = LessonDetail
-        fields = ('id', 'nama_subjudul', 'Lesson_name', 'isi')
+        model = SubLesson
+        fields = ('id', 'sublesson_name', 'lesson_name', 'isi')
 
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = ('id', 'user', 'avatar', 'bio', 'interest')
